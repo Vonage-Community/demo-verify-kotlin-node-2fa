@@ -1,7 +1,13 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
+
+val localProps = project.rootProject.file("local.properties")
+val props = Properties()
+props.load(localProps.inputStream())
 
 android {
     namespace = "com.vonage.verify2.test"
@@ -13,6 +19,9 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "BACKEND_URL", "\"${props["BACKEND_URL"]}\"")
+        buildConfigField("String", "PHONE_NUMBER", "\"${props["PHONE_NUMBER"]}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -38,6 +47,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.8"

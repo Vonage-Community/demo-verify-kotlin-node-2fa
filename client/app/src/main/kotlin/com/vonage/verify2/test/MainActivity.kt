@@ -20,7 +20,10 @@ import com.google.gson.JsonObject
 import java.io.IOException
 
 var currentRequestId: String = ""
-const val BACKEND_URL = ""
+
+const val backendUrl = BuildConfig.BACKEND_URL
+const val phoneNumber = BuildConfig.PHONE_NUMBER
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +43,7 @@ fun VerifyApp() {
 
 @Composable
 fun VerificationScreen() {
-    var phone by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf(phoneNumber) }
     var code by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("") }
     var checkUrl by remember { mutableStateOf("") }
@@ -145,7 +148,7 @@ suspend fun startVerification(phone: String): Pair<String, String> = withContext
     val json = Gson().toJson(mapOf("phone" to phone))
     val requestBody = json.toRequestBody("application/json".toMediaType())
     val request = Request.Builder()
-        .url("$BACKEND_URL/verification")
+        .url("$backendUrl/verification")
         .post(requestBody)
         .build()
     val response = client.newCall(request).execute()
@@ -177,7 +180,7 @@ suspend fun submitCode(requestId: String, code: String): Boolean = withContext(D
     val json = Gson().toJson(mapOf("request_id" to requestId, "code" to code))
     val requestBody = json.toRequestBody("application/json".toMediaType())
     val request = Request.Builder()
-        .url("$BACKEND_URL/check-code")
+        .url("$backendUrl/check-code")
         .post(requestBody)
         .build()
     val response = client.newCall(request).execute()
