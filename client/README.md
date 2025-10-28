@@ -15,42 +15,37 @@ performs number verification.
 
 ## Dependencies
 
-- [Vonage Number Verification SDK](https://github.com/Vonage/number-verification-sdk-android) to force the use of mobile data over WiFi.
 - **OkHttp**: For making HTTP requests.
 - **Kotlin Coroutines**: For asynchronous programming.
 - **Jetpack Compose**: For UI.
 
-
 ## Building the App
 
 1. Open the project in **Android Studio**.
-2. Sync Gradle to download dependencies.
-3. Connect an Android device or start an emulator.
-4. Build and run the app by clicking the **Run** button.
+
+2. Configure global variables. Create a file named `local.properties` in the root folder of the `client` project (the same directory where the `app/` folder and `build.gradle.kts` are located) with the following content:
+
+```
+# Backend base URL
+BACKEND_URL=https://your-backend.example.com
+
+# Your phone number (in international format)
+PHONE_NUMBER=+44123456789
+```
+
+3. Sync Gradle to download dependencies.
+
+4. Connect an Android device or start an emulator.
+
+5. Build and run the app by clicking the **Run** button.
 
 
 ## Usage 
 
-1. Set up the Backend
-
-Ensure the Node.js backend for this app is running. For details, see the [Node.js Backend Documentation](https://github.com/alnacle/demo-number-verification-android-node/server).
-
-2. Configure the App
-
-Update the `BACKEND_URL` in the app code with the URL where the backend is running:
-
-```kotlin
-const val BACKEND_URL = "https://your-node-backend-url/login"
-```
-3. Enter a valid phone number in international format (e.g., `+1234567890`).
-
-4. Tap the **Login** button.
-
-5. The app will:
-   - Send a request to the backend for an auth URL.
-   - Perform OAuth and phone number verification using the Vonage SDK.
-
-6. The verification result (success or failure) will be displayed on the screen.
+1. Make sure the Node.js backend for this app is running. 
+2. Connect your phone and launch the app using Android Studio.
+3. Tap the **Login** button in the app.
+4. The verification result (success or failure) will be displayed on the screen.
 
 
 ## Troubleshooting
