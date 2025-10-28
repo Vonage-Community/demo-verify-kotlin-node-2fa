@@ -14,8 +14,6 @@ This demo shows how to:
 
 - Implement an Android client (Kotlin) that triggers the silent auth flow and falls back to SMS when needed.
 
-- Use the [Vonage Client Library](https://github.com/Vonage/vonage-android-client-library) for Android to ensure the silent auth can work even when the device is connected to Wi‑Fi. 
-
 The purpose of the repository is educational: to provide a complete example of the end‑to‑end flow and the pieces you need to adapt for production.
 
 ## Features
@@ -38,7 +36,19 @@ The purpose of the repository is educational: to provide a complete example of t
 
 * An application set up in the [Vonage Dashboard](https://developer.vonage.com/dashboard) with the `Network Registry` capability enabled.
 
-## Server (NodeJS backend)
+## Configure the Callback URL
+
+In the [Vonage Dashboard](https://dashboard.nexmo.com/):
+
+1. Open your application and navigate to the Capabilities tab.
+
+2. Under Silent Authentication, locate the Verify textbox.
+
+3. Set the Callback URL to `https://your_backend_url/callback`
+
+4. Replace `your_backend_url` with the actual public URL of your backend server (for example, your ngrok or deployed endpoint).
+
+## Running the Backend
 
 Create a .env file (or set environment variables) for the server. The file contains the variables needed to [generate a JWT](https://developer.vonage.com/en/verify/concepts/authentication#jwt) during the API authentication phase: 
 
@@ -60,24 +70,25 @@ npm install
 npm run start 
 ```
 
-## Client (Android app)
+## Running the Client (Android app)
 
-Open the project in Android Studio and sync Gradle to download dependencies.
+1. Open the project in Android Studio and create a file named `local.properties`
+in the root folder of the `client` project (the same directory where the `app/`
+folder and `build.gradle.kts` are located) with the following content:
 
-Important runtime requirement for silent auth: the device must have mobile data
-available (the demo uses the Vonage client library to prioritize/bypass Wi‑Fi
-during the silent auth attempt). For reliable testing use a physical device
-with a mobile data connection.
+```
+# Backend base URL
+BACKEND_URL=https://your-backend.example.com
 
-### Build & Run
+# Your phone number (in international format)
+PHONE_NUMBER=+44123456789
+```
 
-* Open the `client` folder in Android Studio.
+2. Sync Gradle to download dependencies.
 
-* Configure `BASE_URL` with the URL where your backend is running.
+3. Build and install on a device (or emulator).
 
-* Build and install on a device (or emulator).
-
-* Start the app, enter a phone number and follow the UI to start verification.
+4. Start the app, enter a phone number and follow the UI to start verification.
 
 
 ## Authentication flow
