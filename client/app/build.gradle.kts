@@ -65,6 +65,7 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2024.11.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
+    implementation("com.vonage:client-library:1.0.1")
 
     // Networking
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
