@@ -55,7 +55,7 @@ app.post("/verification", async (req, res) => {
       check_url: result.checkUrl,
     });
   } catch (error) {
-    console.error("Error:", error.message);
+    console.dir(error, { depth: null, colors: true });
     return res.status(500).json({ error: error.message });
   }
 });
@@ -86,6 +86,26 @@ app.post("/check-code", async (req, res) => {
     return res.json({ verified, status: result || null });
   } catch (error) {
     console.error(error.message);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/next", async (req, res) => {
+  try {
+    const missing = requireFields(req.body, ["requestId"]);
+    if (missing)
+      return res.status(400).json({ error: `Field '${missing}' is required.` });
+
+    const { requestId } = req.body || null;
+
+    // Verify Next workflow
+    console.log("Moving to the next channel:", requestId);
+    const result = await verifyClient.nextWorkflow(requestId);
+    console.log("Result: ", result);
+
+    return res.status(200).json();
+  } catch (error) {
+    console.dir(error, { depth: null, colors: true });
     return res.status(500).json({ error: error.message });
   }
 });
